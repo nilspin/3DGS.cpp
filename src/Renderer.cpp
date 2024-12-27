@@ -255,10 +255,12 @@ void Renderer::createRadixSortPipeline() {
         context, std::make_shared<Shader>(context, "sort", SPV_SORT, SPV_SORT_len));
 
     auto descriptorSet = std::make_shared<DescriptorSet>(context, FRAMES_IN_FLIGHT);
+    //Allocate storage buffers for intermediate results
     descriptorSet->bindBufferToDescriptorSet(0, vk::DescriptorType::eStorageBuffer, vk::ShaderStageFlagBits::eCompute,
                                              sortKBufferEven);
     descriptorSet->bindBufferToDescriptorSet(0, vk::DescriptorType::eStorageBuffer, vk::ShaderStageFlagBits::eCompute,
                                              sortKBufferOdd);
+    //and a staging buffer for the final sum
     descriptorSet->bindBufferToDescriptorSet(1, vk::DescriptorType::eStorageBuffer, vk::ShaderStageFlagBits::eCompute,
                                              sortHistBuffer);
     descriptorSet->build();
@@ -339,7 +341,7 @@ void Renderer::createTileBoundaryPipeline() {
 void Renderer::createRenderPipeline() {
     spdlog::debug("Creating render pipeline");
     renderPipeline = std::make_shared<ComputePipeline>(
-        context, std::make_shared<Shader>(context, "render", SPV_RENDER, SPV_RENDER_len));
+        context, std::make_shared<Shader>(context, "render", SPV_COMPUTE_RENDER, SPV_COMPUTE_RENDER_len));
     auto inputSet = std::make_shared<DescriptorSet>(context, FRAMES_IN_FLIGHT);
     inputSet->bindBufferToDescriptorSet(0, vk::DescriptorType::eStorageBuffer, vk::ShaderStageFlagBits::eCompute,
                                         vertexAttributeBuffer);

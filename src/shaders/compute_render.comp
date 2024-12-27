@@ -88,12 +88,6 @@ void main() {
         T = test_T;
     }
 
-//    if (index == 10000) {
-//        debugPrintfEXT("c %f %f %f\n", c.x, c.y, c.z);
-//    }
 
-    // set pixel to red
-//    ivec2 pixel_coords = ivec2(curr_uv);
-//    imageStore(output_image, ivec2(curr_uv), vec4(1.0, 0.0, 0.0, 1.0));
     imageStore(output_image, ivec2(curr_uv), vec4(c, 1.0f));
 }
